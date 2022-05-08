@@ -13722,33 +13722,39 @@ const github = __nccwpck_require__(2726);
 const axios = __nccwpck_require__(6805);
 
 async function getCurrentRecordId(cli, recordName) {
-  core.info('trying to get record list...');
   try {
     const res = await cli.get();
     core.info(JSON.stringify(res.data.result_info));
-    res.data.result.forEach(record => {
-      core.info(record.name);
-      core.info(typeof(record.name));
+    for (let record of res.data.result) {
       if (record.name === recordName) {
         return record.id;
       }
-    });
+    }
   } catch (error) {
     core.setFailed(`failed getting record list: ${error.message}`);
     process.exit(1);
   }
-  core.info(`record with name ${recordName} not found`);
   return null;
 }
 
 async function createRecord(cli, data) {
-  const res = await cli.post('', data);
-  core.info(JSON.stringify(res.data));
+  try {
+    const res = await cli.post('', data);
+    core.info(JSON.stringify(res.data));
+  } catch (error) {
+    core.setFailed(`failed creating record: ${error.message}`);
+    process.exit(1);
+  }
 }
 
 async function updateRecord(cli, id, data) {
-  const res = await cli.put(id, data);
-  core.info(JSON.stringify(res.data));
+  try {
+    const res = await cli.put(id, data);
+    core.info(JSON.stringify(res.data));
+  } catch (error) {
+    core.setFailed(`failed updating record: ${error.message}`);
+    process.exit(1);
+  }
 }
 
 async function run() {
