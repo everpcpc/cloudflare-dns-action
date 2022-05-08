@@ -7,7 +7,7 @@ Creates a new CloudFlare DNS record.
 Add [CLOUDFLARE_TOKEN](https://developers.cloudflare.com/api/tokens/create) and CLOUDFLARE_ZONE to the [repository secrets](https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets).
 
 ```yaml
-- uses: everpcpc/cloudflare-dns-action@main
+- uses: everpcpc/cloudflare-dns-action@v1
   with:
     type: "A"
     name: "test.example.com"

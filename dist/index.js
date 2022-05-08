@@ -13723,7 +13723,7 @@ const axios = __nccwpck_require__(6805);
 
 async function getCurrentRecordId(cli, name) {
   const res = await cli.get();
-  core.info(res.data);
+  core.info(JSON.stringify(res.data));
   res.data.result.forEach(record => {
     if (record.name == name) {
       return record.id;
@@ -13734,12 +13734,12 @@ async function getCurrentRecordId(cli, name) {
 
 async function createRecord(cli, data) {
   const res = await cli.post('', data);
-  core.info(res.data);
+  core.info(JSON.stringify(res.data));
 }
 
 async function updateRecord(cli, id, data) {
   const res = await cli.put(id, data);
-  core.info(res.data);
+  core.info(JSON.stringify(res.data));
 }
 
 async function run() {
