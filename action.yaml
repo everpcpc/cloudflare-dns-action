@@ -1,5 +1,5 @@
-name: "CloudFlare DNS Management"
-description: "Creates and updates CloudFlare DNS records"
+name: "Create/Update CloudFlare DNS Records"
+description: "Creates or updates CloudFlare DNS records"
 author: "everpcpc"
 
 inputs:
