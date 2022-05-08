@@ -13721,14 +13721,14 @@ const core = __nccwpck_require__(4181);
 const github = __nccwpck_require__(2726);
 const axios = __nccwpck_require__(6805);
 
-async function getCurrentRecordId(cli, name) {
+async function getCurrentRecordId(cli, recordName) {
   core.info('trying to get record list...');
   try {
     const res = await cli.get();
     core.info(JSON.stringify(res.data.result_info));
     res.data.result.forEach(record => {
       core.info(record.name);
-      if (record.name == name) {
+      if (record.name === recordName) {
         return record.id;
       }
     });
@@ -13736,7 +13736,7 @@ async function getCurrentRecordId(cli, name) {
     core.setFailed(`failed getting record list: ${error.message}`);
     process.exit(1);
   }
-  core.info("not found");
+  core.info(`record with name ${recordName} not found`);
   return null;
 }
 

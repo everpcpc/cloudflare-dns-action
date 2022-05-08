@@ -6,14 +6,14 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const axios = require('axios');
 
-async function getCurrentRecordId(cli, name) {
+async function getCurrentRecordId(cli, recordName) {
   core.info('trying to get record list...');
   try {
     const res = await cli.get();
     core.info(JSON.stringify(res.data.result_info));
     res.data.result.forEach(record => {
       core.info(record.name);
-      if (record.name == name) {
+      if (record.name === recordName) {
         return record.id;
       }
     });
@@ -21,7 +21,7 @@ async function getCurrentRecordId(cli, name) {
     core.setFailed(`failed getting record list: ${error.message}`);
     process.exit(1);
   }
-  core.info("not found");
+  core.info(`record with name ${recordName} not found`);
   return null;
 }
 
