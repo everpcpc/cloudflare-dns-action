@@ -1,0 +1,23 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          type: "A"
+          name: "test.everpcpc.com"
+          content: "8.8.4.4"
+          ttl: 1
+          proxied: false
+          token: ${{ secrets.CLOUDFLARE_TOKEN }}
+          zone: ${{ secrets.CLOUDFLARE_ZONE }}
+
+
