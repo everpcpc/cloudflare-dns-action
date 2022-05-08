@@ -2,7 +2,42 @@
 
 Creates a new CloudFlare DNS record.
 
-## Usage via Github Actions
+## Inputs
+
+### `type`
+DNS record type. Default `A`
+
+### `name`
+**Required** DNS record name
+
+**Use full qualified domain name to update if it exist**
+
+### `content`
+**Required** DNS record content
+
+### `ttl`
+Time to live for DNS record. Default `1` for auto.
+
+### `proxied`
+Whether the record is receiving the performance and security benefits of Cloudflare. Default: `true`
+
+### `token`
+**Required** CloudFlare API token
+
+### `zone`
+**Required** CloudFlare zone
+
+
+## Outputs
+
+### `record_id`
+Record ID
+
+### `name`
+Affected domain name
+
+
+## Example usage
 
 Add [CLOUDFLARE_TOKEN](https://developers.cloudflare.com/api/tokens/create) and CLOUDFLARE_ZONE to the [repository secrets](https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets).
 
@@ -13,11 +48,10 @@ Add [CLOUDFLARE_TOKEN](https://developers.cloudflare.com/api/tokens/create) and 
     name: "test.example.com"
     content: "8.8.8.8"
     ttl: 1
-    proxied: true
+    proxied: false
     token: ${{ secrets.CLOUDFLARE_TOKEN }}
     zone: ${{ secrets.CLOUDFLARE_ZONE }}
 ```
-**Use full qualified domain name to update if it exist**
 
 ## License
 

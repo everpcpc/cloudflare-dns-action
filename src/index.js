@@ -25,7 +25,7 @@ async function getCurrentRecordId(cli, recordName) {
 async function createRecord(cli, data) {
   try {
     const res = await cli.post('', data);
-    core.info(JSON.stringify(res.data));
+    return res.data.result;
   } catch (error) {
     core.setFailed(`failed creating record: ${error.message}`);
     process.exit(1);
@@ -35,7 +35,6 @@ async function createRecord(cli, data) {
 async function updateRecord(cli, id, data) {
   try {
     const res = await cli.put(id, data);
-    core.info(JSON.stringify(res.data));
   } catch (error) {
     core.setFailed(`failed updating record: ${error.message}`);
     process.exit(1);
@@ -67,12 +66,15 @@ async function run() {
       proxied: Boolean(inputProxied == "true"),
     };
 
+    let result;
     if (oldRecordID === null) {
-      await createRecord(cli, data);
+      result = await createRecord(cli, data);
     } else {
       core.info(`record exists with ${oldRecordID}, updating...`);
-      await updateRecord(cli, oldRecordID, data);
+      result = await updateRecord(cli, oldRecordID, data);
     }
+    core.setOutput('record_id', result.id);
+    core.setOutput('name', result.name);
 
   } catch (error) {
     core.setFailed(error.message);
