@@ -10,17 +10,17 @@ async function getCurrentRecordId(cli, name) {
   core.info('trying to get record list...');
   try {
     const res = await cli.get();
+    core.info(JSON.stringify(res.data.result_info));
+    res.data.result.forEach(record => {
+      core.info(record.name);
+      if (record.name == name) {
+        return record.id;
+      }
+    });
   } catch (error) {
     core.setFailed(`failed getting record list: ${error.message}`);
     process.exit(1);
   }
-  core.info(JSON.stringify(res.data.result_info));
-  res.data.result.forEach(record => {
-    core.info(record.name);
-    if (record.name == name) {
-      return record.id;
-    }
-  });
   core.info("not found");
   return null;
 }
