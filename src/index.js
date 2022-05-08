@@ -71,7 +71,7 @@ async function run() {
       await createRecord(cli, data);
     } else {
       core.info(`record exists with ${oldRecordID}, updating...`);
-      await createRecord(cli, oldRecordID, data);
+      await updateRecord(cli, oldRecordID, data);
     }
 
   } catch (error) {
