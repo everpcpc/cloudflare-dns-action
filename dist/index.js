@@ -13728,6 +13728,7 @@ async function getCurrentRecordId(cli, recordName) {
     core.info(JSON.stringify(res.data.result_info));
     res.data.result.forEach(record => {
       core.info(record.name);
+      core.info(typeof(record.name));
       if (record.name === recordName) {
         return record.id;
       }
