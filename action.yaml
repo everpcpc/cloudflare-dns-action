@@ -1,0 +1,38 @@
+name: "CloudFlare DNS Management"
+description: "Creates and updates CloudFlare DNS records"
+author: "everpcpc"
+
+inputs:
+  type:
+    description: 'DNS record type, e.g. "A", "CNAME", etc.'
+    required: true
+  name:
+    description: 'DNS record name, e.g. "{PR_NUMBER}.example.com"'
+    required: true
+  content:
+    description: 'DNS record content, e.g. "127.0.0.1"'
+  ttl:
+    description: "Time to live for DNS record. Value of 1 is 'automatic'"
+    default: 1
+  proxied:
+    description: "Whether the record is receiving the performance and security benefits of Cloudflare"
+    default: true
+  token:
+    description: "CloudFlare API token"
+    required: true
+  zone:
+    default: "CloudFlare zone"
+    required: true
+outputs:
+  record_id:
+    description: "Record ID"
+  name:
+    description: 'Affected domain name'
+
+runs:
+  using: "node16"
+  main: "dist/index.js"
+
+branding:
+  icon: "cloud"
+  color: "orange"
