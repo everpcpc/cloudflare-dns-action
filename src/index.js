@@ -6,25 +6,39 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const axios = require('axios');
 
-async function getCurrentRecordId(cli, name) {
-  const res = await cli.get();
-  core.info(JSON.stringify(res.data));
-  res.data.result.forEach(record => {
-    if (record.name == name) {
-      return record.id;
+async function getCurrentRecordId(cli, recordName) {
+  try {
+    const res = await cli.get();
+    core.info(JSON.stringify(res.data.result_info));
+    for (let record of res.data.result) {
+      if (record.name === recordName) {
+        return record.id;
+      }
     }
-  });
+  } catch (error) {
+    core.setFailed(`failed getting record list: ${error.message}`);
+    process.exit(1);
+  }
   return null;
 }
 
 async function createRecord(cli, data) {
-  const res = await cli.post('', data);
-  core.info(JSON.stringify(res.data));
+  try {
+    const res = await cli.post('', data);
+    return res.data.result;
+  } catch (error) {
+    core.setFailed(`failed creating record: ${error.message}`);
+    process.exit(1);
+  }
 }
 
 async function updateRecord(cli, id, data) {
-  const res = await cli.put(id, data);
-  core.info(JSON.stringify(res.data));
+  try {
+    const res = await cli.put(id, data);
+  } catch (error) {
+    core.setFailed(`failed updating record: ${error.message}`);
+    process.exit(1);
+  }
 }
 
 async function run() {
@@ -52,12 +66,15 @@ async function run() {
       proxied: Boolean(inputProxied == "true"),
     };
 
+    let result;
     if (oldRecordID === null) {
-      await createRecord(cli, data);
+      result = await createRecord(cli, data);
     } else {
       core.info(`record exists with ${oldRecordID}, updating...`);
-      await createRecord(cli, oldRecordID, data);
+      result = await updateRecord(cli, oldRecordID, data);
     }
+    core.setOutput('record_id', result.id);
+    core.setOutput('name', result.name);
 
   } catch (error) {
     core.setFailed(error.message);

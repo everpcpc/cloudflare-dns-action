@@ -5,7 +5,7 @@ author: "everpcpc"
 inputs:
   type:
     description: 'DNS record type, e.g. "A", "CNAME", etc.'
-    required: true
+    default: 'A'
   name:
     description: 'DNS record name, e.g. "{PR_NUMBER}.example.com"'
     required: true
