@@ -3,7 +3,6 @@
  */
 
 const core = require('@actions/core');
-const github = require('@actions/github');
 const axios = require('axios');
 
 async function getCurrentRecordId(cli, recordName) {
@@ -35,6 +34,7 @@ async function createRecord(cli, data) {
 async function updateRecord(cli, id, data) {
   try {
     const res = await cli.put(id, data);
+    return res.data.result;
   } catch (error) {
     core.setFailed(`failed updating record: ${error.message}`);
     process.exit(1);
