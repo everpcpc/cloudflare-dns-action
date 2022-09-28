@@ -7,7 +7,7 @@ const axios = require('axios');
 
 async function getCurrentRecordId(cli, recordName) {
   try {
-    const res = await cli.get();
+    const res = await cli.get({ name: recordName });
     core.info(JSON.stringify(res.data.result_info));
     for (let record of res.data.result) {
       if (record.name === recordName) {
