@@ -22,8 +22,14 @@ inputs:
     default: "true"
     required: false
   token:
-    description: "CloudFlare API token"
-    required: true
+    description: "CloudFlare API token, used over email and api key"
+    required: false
+  email:
+    description: "CloudFlare API Email"
+    required: false
+  apiKey:
+    description: "CloudFlare API Key"
+    required: false
   zone:
     description: "CloudFlare zone"
     required: true

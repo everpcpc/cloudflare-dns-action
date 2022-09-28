@@ -44,6 +44,8 @@ async function updateRecord(cli, id, data) {
 async function run() {
   try {
     const inputToken = core.getInput('token');
+    const inputEmail = core.getInput('email');
+    const inputApiKey = core.getInput('apiKey');
     const inputZone = core.getInput('zone');
     const inputType = core.getInput('type');
     const inputName = core.getInput('name');
@@ -55,7 +57,12 @@ async function run() {
       baseURL: `https://api.cloudflare.com/client/v4/zones/${inputZone}/dns_records`,
       timeout: 3000,
     });
-    cli.defaults.headers.common['Authorization'] = `Bearer ${inputToken}`;
+    if (inputToken) {
+      cli.defaults.headers.common['Authorization'] = `Bearer ${inputToken}`;
+    } else {
+      cli.defaults.headers.common['X-Auth-Email'] = inputEmail;
+      cli.defaults.headers.common['X-Auth-Key'] = inputApiKey;
+    }
 
     const oldRecordID = await getCurrentRecordId(cli, inputName);
     const data = {
