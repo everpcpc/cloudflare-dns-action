@@ -5,9 +5,9 @@
 const core = require('@actions/core');
 const axios = require('axios');
 
-async function getCurrentRecordId(cli, recordName) {
+async function getCurrentRecordId(cli, recordName, page = 1) {
   try {
-    const res = await cli.get('', { params: { name: recordName } });
+    const res = await cli.get('', { params: { page: page } });
     core.info(JSON.stringify(res.data.result_info));
     for (let record of res.data.result) {
       if (record.name === recordName) {
@@ -17,6 +17,9 @@ async function getCurrentRecordId(cli, recordName) {
   } catch (error) {
     core.setFailed(`failed getting record list: ${error.message}`);
     process.exit(1);
+  }
+  if (res.data.result_info.total_pages > page) {
+    return await getCurrentRecordId(cli, recordName, page + 1);
   }
   return null;
 }
