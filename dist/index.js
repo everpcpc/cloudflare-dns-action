@@ -6961,12 +6961,12 @@ async function getCurrentRecordId(cli, recordName, page = 1) {
         return record.id;
       }
     }
+    if (res.data.result_info.total_pages > page) {
+      return await getCurrentRecordId(cli, recordName, page + 1);
+    }
   } catch (error) {
     core.setFailed(`failed getting record list: ${error.message}`);
     process.exit(1);
-  }
-  if (res.data.result_info.total_pages > page) {
-    return await getCurrentRecordId(cli, recordName, page + 1);
   }
   return null;
 }
