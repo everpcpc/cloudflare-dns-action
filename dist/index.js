@@ -6952,9 +6952,9 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(4181);
 const axios = __nccwpck_require__(6805);
 
-async function getCurrentRecordId(cli, recordName) {
+async function getCurrentRecordId(cli, recordName, page = 1) {
   try {
-    const res = await cli.get();
+    const res = await cli.get('', { params: { page: page } });
     core.info(JSON.stringify(res.data.result_info));
     for (let record of res.data.result) {
       if (record.name === recordName) {
@@ -6964,6 +6964,9 @@ async function getCurrentRecordId(cli, recordName) {
   } catch (error) {
     core.setFailed(`failed getting record list: ${error.message}`);
     process.exit(1);
+  }
+  if (res.data.result_info.total_pages > page) {
+    return await getCurrentRecordId(cli, recordName, page + 1);
   }
   return null;
 }
