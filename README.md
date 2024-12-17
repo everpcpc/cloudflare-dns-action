@@ -1,7 +1,6 @@
 # Create DNS Record Action for GitHub
 
 Creates a new CloudFlare DNS record.
-forked from everpcpc/cloudflare-dns-action@v1 to fix https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
 
 ## Inputs
 
@@ -50,7 +49,7 @@ Affected domain name
 Add [CLOUDFLARE_TOKEN](https://developers.cloudflare.com/api/tokens/create) and CLOUDFLARE_ZONE to the [repository secrets](https://docs.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets).
 
 ```yaml
-- uses: ezraroda/cloudflare-dns-action@v1
+- uses: everpcpc/cloudflare-dns-action@v1
   with:
     type: "A"
     name: "test.example.com"
