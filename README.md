@@ -5,37 +5,44 @@ Creates a new CloudFlare DNS record.
 ## Inputs
 
 ### `type`
+
 DNS record type. Default `A`
 
 ### `name`
+
 **Required** DNS record name
 
 **Use full qualified domain name to update if it exist**
 
 ### `content`
+
 **Required** DNS record content
 
 ### `ttl`
+
 Time to live for DNS record. Default `1` for auto.
 
 ### `proxied`
+
 Whether the record is receiving the performance and security benefits of Cloudflare. Default: `true`
 
 ### `token`
+
 **Required** CloudFlare API token
 
 ### `zone`
-**Required** CloudFlare zone
 
+**Required** CloudFlare zone
 
 ## Outputs
 
 ### `record_id`
+
 Record ID
 
 ### `name`
-Affected domain name
 
+Affected domain name
 
 ## Example usage
 

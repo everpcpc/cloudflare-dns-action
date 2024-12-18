@@ -4,4 +4,4 @@ init:
 	npm install
 
 build: init
-	ncc build src/index.js -o dist
+	npx ncc build src/index.js -o dist
